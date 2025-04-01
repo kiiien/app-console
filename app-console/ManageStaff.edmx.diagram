@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7158b079eecf41da9af452b842318865" Name="Diagram1" ZoomLevel="95">
+        <EntityTypeShape EntityType="MangeStaffModel.Attendance" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="MangeStaffModel.Employees" Width="1.5" PointX="0.75" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MangeStaffModel.LeaveRequest" Width="1.5" PointX="3" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MangeStaffModel.Salaries" Width="1.5" PointX="3" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="MangeStaffModel.Schedules" Width="1.5" PointX="6" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MangeStaffModel.Shifts" Width="1.5" PointX="0.75" PointY="3.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MangeStaffModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="MangeStaffModel.FK_Attendance_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="MangeStaffModel.FK_Attendance_Shift" ManuallyRouted="false" />
+        <AssociationConnector Association="MangeStaffModel.FK_LeaveRequest_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="MangeStaffModel.FK_Salaries_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="MangeStaffModel.FK_Schedules_Employee" ManuallyRouted="false" />
+        <AssociationConnector Association="MangeStaffModel.FK_Schedules_Shift" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
