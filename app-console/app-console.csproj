@@ -53,18 +53,15 @@
     <Compile Include="Attendance.cs">
       <DependentUpon>ManageStaff.tt</DependentUpon>
     </Compile>
+    <Compile Include="BusinessLogicLayer\BUS_Attendance.cs" />
     <Compile Include="BusinessLogicLayer\BUS_Employees.cs" />
     <Compile Include="BusinessLogicLayer\BUS_Schedules.cs" />
     <Compile Include="BusinessLogicLayer\BUS_Shifts.cs" />
+    <Compile Include="DataAccessLayer\DAL_Attendance.cs" />
     <Compile Include="DataAccessLayer\DAL_Employees.cs" />
     <Compile Include="DataAccessLayer\DAL_Schedules.cs" />
     <Compile Include="DataAccessLayer\DAL_Shifts.cs" />
-    <Compile Include="Dtos\Attendance.cs" />
-    <Compile Include="Dtos\Employees.cs" />
-    <Compile Include="Dtos\LeaveRequest.cs" />
-    <Compile Include="Dtos\Salaries.cs" />
-    <Compile Include="Dtos\Schedules.cs" />
-    <Compile Include="Dtos\Shifts.cs" />
+    <Compile Include="Dtos\EmployeesCustom.cs" />
     <Compile Include="Employees.cs">
       <DependentUpon>ManageStaff.tt</DependentUpon>
     </Compile>

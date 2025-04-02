@@ -10,6 +10,7 @@ namespace app_console.PresentationLayer
 
         BUS_Employees _employees = new BUS_Employees();
         BUS_Schedules _schedules = new BUS_Schedules();
+        BUS_Attendance _attendance = new BUS_Attendance();
         public void ExportMenu()
         {
             Console.WriteLine("============= MENU =============");
@@ -50,10 +51,21 @@ namespace app_console.PresentationLayer
                         _schedules.FinalFunc();
                         
                         break;
+                    case 3:
+                        Console.Clear();
 
+                        _attendance.FinalFunc();
+
+                        break;
+
+                    case 4:
+                        Console.Clear();
+
+                        _employees.FinalFunc();
+
+                        break;
                     case 5:
                         return;
-                        break;
                 }
 
             }

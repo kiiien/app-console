@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace app_console.Dtos
 {
-    internal class Employees
+    internal class EmployeesCustom
     {
         public int EmployeeID { get; set; }
 
@@ -25,5 +25,10 @@ namespace app_console.Dtos
         public string Position { get; set; }
 
         public DateTime HireDate { get; set; }
+
+        public decimal TotalHour { get; set; }
+
+        public void Export() => Console.WriteLine($"Id: {this.EmployeeID} | Full Name: {this.FullName} | Phone: {this.Phone} | Email: {this.Email} | Address: {this.Address} | TotalHour: {this.TotalHour}h");
+
     }
 }

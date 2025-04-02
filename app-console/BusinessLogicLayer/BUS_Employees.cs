@@ -1,14 +1,155 @@
 ﻿
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
-using System.Xml.Serialization;
 using app_console.DataAccessLayer;
+using app_console.Dtos;
 
 namespace app_console.BusinessLogicLayer
 {
     internal class BUS_Employees
     {
         DAL_Employees _context = new DAL_Employees();
+        DAL_Attendance _attendance = new DAL_Attendance();
+
+        // thông nhân viên
+
+        // thống kê tổng thời gian làm của nhân viên
+        public void TotalHourWork()
+        {
+            Console.WriteLine("=========== Thông kê giờ làm ===========");
+
+            Console.WriteLine();
+
+            List<Employees> employees = _context.GetAll();
+
+            foreach(Employees employee in employees)
+            {
+                List<Attendance> attendances = _attendance.GetAllByIdStaff(employee.EmployeeID);
+
+                Console.WriteLine($"Id: {employee.EmployeeID} | Full Name: {employee.FullName} | Phone: {employee.Phone} | Email: {employee.Email} | Address: {employee.Address} | TotalHour: {HandleTotalWork(attendances)}h");
+
+            }
+        }
+
+        public decimal HandleTotalWork(List<Attendance> attendances)
+        {
+            decimal total = 0;
+
+            foreach(Attendance att in attendances)
+            {
+                TimeSpan workingTime = (TimeSpan)att.CheckOut - att.CheckIn;
+                if (workingTime.TotalHours < 0)
+                {
+                    workingTime += TimeSpan.FromDays(1); // Cộng thêm 1 ngày nếu CheckOut nhỏ hơn CheckIn
+                }
+
+                total += (decimal)workingTime.TotalHours;
+            }
+
+            return total;
+        }
+
+        // Xuất 2 nhân viên có tổng giờ làm việc nhất/thấp nhất trong tháng
+
+        public void HourCompare()
+        {
+            Console.WriteLine("=========== Thông kê nhân viên có nhiều/ít giờ làm nhất ===========");
+
+            Console.WriteLine();
+
+            List<Attendance> attendances = _attendance.GetAttendanceMoth();
+
+            List<Employees> employees = _context.GetAll();
+
+            List<EmployeesCustom> emp = new List<EmployeesCustom>();
+
+            foreach(Employees employee in employees)
+            {
+                List<Attendance> atten = attendances.Where(a => a.EmployeeID == employee.EmployeeID).ToList();
+
+                EmployeesCustom employeeCustom = new EmployeesCustom
+                {
+                    EmployeeID = employee.EmployeeID,
+                    FullName = employee.FullName,
+                    Address = employee.Address,
+                    Email = employee.Email,
+                    Phone = employee.Phone,
+                    TotalHour = HandleTotalWork(atten)
+                };
+
+                emp.Add(employeeCustom);
+            }
+
+            EmployeesCustom lowest = emp.OrderByDescending(a => a.TotalHour).FirstOrDefault();
+            EmployeesCustom highest = emp.OrderBy(a => a.TotalHour).FirstOrDefault();
+
+            lowest.Export();
+
+            highest.Export();
+        }
+
+
+
+        public void MainTitle()
+        {
+            Console.WriteLine("======== Thông kê nhân viên =========");
+            Console.WriteLine("1. Thông kê tất cả giờ làm cửa từng nhân viên");
+            Console.WriteLine("2. Nhân viên có nhiều giờ làm nhất/thấp nhất trong tháng");
+            Console.WriteLine("3. *Thoát");
+
+            Console.WriteLine();
+
+            Console.Write("Nhập lựa chọn của bạn: ");
+
+            int select = int.Parse(Console.ReadLine());
+
+            switch (select)
+            {
+                case 1:
+
+                    Console.Clear();
+
+                    TotalHourWork();
+                    
+                    break;
+
+                case 2:
+                    Console.Clear();
+
+                    HourCompare();
+
+                    break;
+
+                case 3:
+                    return;
+            }
+
+        }
+
+        public void FinalFunc()
+        {
+            while (true)
+            {
+                Console.Clear();
+
+                MainTitle();
+
+                Console.WriteLine();
+
+                Console.Write("Bạn có muốn tiếp tục không (Y/N): ");
+                
+                string selected = Console.ReadLine();
+
+                if(selected.Equals("n", StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+            }
+        }
+
+
         // update info staff
 
         public void TitleUpdateInfo()

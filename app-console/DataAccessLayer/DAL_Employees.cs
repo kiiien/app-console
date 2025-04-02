@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace app_console.DataAccessLayer
@@ -25,5 +26,7 @@ namespace app_console.DataAccessLayer
         }
 
         public Employees GetById(int id) => _context.Employees.FirstOrDefault(a => a.EmployeeID == id);
+
+        public List<Employees> GetAll() => _context.Employees.ToList();
     }
 }
