@@ -26,13 +26,21 @@ namespace app_console.BusinessLogicLayer
 
         public string Input(string text)
         {
-            Console.WriteLine();
+            string a = text;
+            while (true)
+            {
+                Console.WriteLine();
 
-            Console.Write($"Nhập {text} của nhân viên: ");
+                Console.Write($"Nhập {a} của nhân viên: ");
 
-            text = Console.ReadLine();
+                text = Console.ReadLine();
 
-            return text;
+                if(text.Trim().Length > 0 )
+                {
+                    
+                    return text;
+                }
+            }
         }
 
         public Tuple<string, string, string> InputByUser()

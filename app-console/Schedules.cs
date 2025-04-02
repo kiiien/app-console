@@ -21,5 +21,10 @@ namespace app_console
     
         public virtual Employees Employees { get; set; }
         public virtual Shifts Shifts { get; set; }
+
+        public void Export()
+        {
+            Console.WriteLine($"ScheduleId: {this.ScheduleID} | ShiftID: {this.ShiftID} | WorkDate: {this.WorkDate.ToString("dd/MM/yyyy")} | ");
+        }
     }
 }

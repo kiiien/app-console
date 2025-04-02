@@ -54,8 +54,10 @@
       <DependentUpon>ManageStaff.tt</DependentUpon>
     </Compile>
     <Compile Include="BusinessLogicLayer\BUS_Employees.cs" />
+    <Compile Include="BusinessLogicLayer\BUS_Schedules.cs" />
     <Compile Include="BusinessLogicLayer\BUS_Shifts.cs" />
     <Compile Include="DataAccessLayer\DAL_Employees.cs" />
+    <Compile Include="DataAccessLayer\DAL_Schedules.cs" />
     <Compile Include="DataAccessLayer\DAL_Shifts.cs" />
     <Compile Include="Dtos\Attendance.cs" />
     <Compile Include="Dtos\Employees.cs" />
