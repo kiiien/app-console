@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using app_console.DataAccessLayer;
 using app_console.Dtos;
+using Microsoft.SqlServer.Server;
 
 namespace app_console.BusinessLogicLayer
 {
@@ -28,7 +29,7 @@ namespace app_console.BusinessLogicLayer
             {
                 List<Attendance> attendances = _attendance.GetAllByIdStaff(employee.EmployeeID);
 
-                Console.WriteLine($"Id: {employee.EmployeeID} | Full Name: {employee.FullName} | Phone: {employee.Phone} | Email: {employee.Email} | Address: {employee.Address} | TotalHour: {HandleTotalWork(attendances)}h");
+                Console.WriteLine($"Id: NV-{employee.EmployeeID} | Full Name: {employee.FullName} | Phone: {employee.Phone} | Email: {employee.Email} | Address: {employee.Address} | TotalHour: {HandleTotalWork(attendances)}h");
 
             }
         }
@@ -178,21 +179,91 @@ namespace app_console.BusinessLogicLayer
 
                 if(text.Trim().Length > 0 )
                 {
-                    
                     return text;
                 }
             }
         }
 
-        public Tuple<string, string, string> InputByUser()
+        public Employees Mapping(Employees existing, string str)
         {
-            string phone, address, email;
+            if(str.Trim().Equals("fullname", StringComparison.OrdinalIgnoreCase))
+            {
+                str = Input(str);
+                existing.FullName = str;
+            }
 
-            phone = Input("phone");
-            address = Input("address");
-            email = Input("email");
+            else if (str.Trim().Equals("Phone", StringComparison.OrdinalIgnoreCase))
+            {
+                str = Input(str);
+                existing.Phone = str;
+            }
 
-            return Tuple.Create(phone, address, email);
+            else if (str.Trim().Equals("Email", StringComparison.OrdinalIgnoreCase))
+            {
+                str = Input(str);
+                existing.Email = str;
+            }
+
+            return existing;
+        }
+
+        public void UpdateItem(Employees existing, string str)
+        {
+            existing = Mapping(existing, str);
+
+            Employees employees = _context.Update(existing);
+
+            if(employees == null)
+            {
+                Console.WriteLine("Có lỗi trong quá trình cập nhật");
+                Console.WriteLine();
+
+                return;
+            }
+
+            Console.WriteLine($"====== Thông tin nhân viên SAU khi cập nhật ( MÃ {existing.EmployeeID} ) ======");
+
+            Console.WriteLine();
+
+            existing.Export();
+        }
+
+        public void SelectedItemUpdate(Employees existing)
+        {
+            Console.WriteLine("============ Chọn item cần cập nhật thông tin ============");
+            Console.WriteLine();
+
+            Console.WriteLine("1. Cập nhật HỌ TÊN");
+            Console.WriteLine("2. Cập nhật EMAIL");
+            Console.WriteLine("3. Cập nhật SÔ ĐIỆN THOẠI");
+            Console.WriteLine("4. *THOÁT");
+
+
+            Console.WriteLine();
+
+            Console.Write("- Nhập lựa chọn của bạn: ");
+
+            int selected = int.Parse(Console.ReadLine());
+            switch (selected)
+            {
+                case 1:
+
+                    Console.WriteLine();
+                    UpdateItem(existing, "fullname");
+                    break;
+                case 2:
+
+                    Console.WriteLine();
+                    UpdateItem(existing, "Email");
+                    break;
+                case 3:
+
+                    Console.WriteLine();
+                    UpdateItem(existing, "Phone");
+                    break;
+                case 4:
+                    return;
+            }
         }
         
         public void Update()
@@ -213,39 +284,37 @@ namespace app_console.BusinessLogicLayer
 
             // get info staff by id for input to user
 
-            Employees employee = _context.GetById(idStaff);
-
-            if (employee == null)
+            while(true)
             {
-                Console.WriteLine($"====== KHÔNG TÌM THẤY THÔNG TIN NHÂN VIÊN CÓ MÃ {idStaff} ======");
-                return;
-            }
+                Employees employee = _context.GetById(idStaff);
 
+                if (employee == null)
+                {
+                    Console.WriteLine($"====== KHÔNG TÌM THẤY THÔNG TIN NHÂN VIÊN CÓ MÃ {idStaff} ======");
+                    return;
+                }
 
-            Console.WriteLine($"====== Thông tin nhân viên TRƯỚC khi cập nhật ( MÃ {idStaff} ) ======");
+                Console.WriteLine($"====== Thông tin nhân viên TRƯỚC khi cập nhật ( MÃ {idStaff} ) ======");
 
-            employee.Export();
+                employee.Export();
 
-            Tuple<string, string, string> newInfor =  InputByUser();
-
-            employee.Phone = newInfor.Item1; 
-            employee.Address = newInfor.Item2;
-            employee.Email = newInfor.Item3;
-
-            Employees existing = _context.Update(employee);
-            
-            if(existing == null)
-            {
-                Console.WriteLine("Có lỗi trong quá trình cập nhật");
                 Console.WriteLine();
-                
-                return;
+
+                SelectedItemUpdate(employee);
+
+                Console.WriteLine();
+
+                Console.Write("Bạn có muốn tiếp tục cập nhật thông tin không (Y/N): ");
+
+                string str = Console.ReadLine();
+
+                if(str.Equals("n", StringComparison.OrdinalIgnoreCase))
+                {
+                    break;
+                }
+
+                Console.Clear();
             }
-
-            Console.WriteLine($"====== Thông tin nhân viên SAU khi cập nhật ( MÃ {idStaff} ) ======");
-
-            existing.Export();
-
         }
 
         public void FinalFunctionUpdate() // Hàm chạy chính trong chức năng cập nhật thông tin

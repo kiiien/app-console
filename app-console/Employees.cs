@@ -47,6 +47,6 @@ namespace app_console
             return "Nam";
         }
 
-        public void Export() => Console.WriteLine($"Id: {this.EmployeeID} | Full Name: {this.FullName} | Phone: {this.Phone} | Email: {this.Email} | Address: {this.Address} | Gender: {RenderGender(this.Gender)}");
+        public void Export() => Console.WriteLine($"Id: NV-{this.EmployeeID} | Full Name: {this.FullName} | Phone: {this.Phone} | Email: {this.Email} | Address: {this.Address} | Gender: {RenderGender(this.Gender)}");
     }
 }

@@ -24,7 +24,7 @@ namespace app_console.BusinessLogicLayer
 
                 Salaries salaries = _attendance.GetHourlyWageByIdStaff(employee.EmployeeID);
 
-                Console.WriteLine($"Id: {employee.EmployeeID} | Full Name: {employee.FullName} | Phone: {employee.Phone} | Email: {employee.Email} | Address: {employee.Address} | TotalSalary: {HandleFunc(attendances, salaries)}");
+                Console.WriteLine($"Id: NV-{employee.EmployeeID} | Full Name: {employee.FullName} | Phone: {employee.Phone} | Email: {employee.Email} | Address: {employee.Address} | TotalSalary: {HandleFunc(attendances, salaries)}");
             }
         }
 
@@ -42,7 +42,13 @@ namespace app_console.BusinessLogicLayer
                 totalHour += (decimal)workingTime.TotalHours;
             }
 
-            return totalHour * salaries.HourlyWage;
+            decimal baseSalary = (decimal)salaries.BaseSalary;
+
+
+            return (totalHour * salaries.HourlyWage * baseSalary) 
+                    + (decimal)salaries.Bonus 
+                    - (decimal)salaries.Deductions 
+                    + (decimal)salaries.Allowance;
         }
 
         public void FinalFunc()

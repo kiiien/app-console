@@ -28,6 +28,6 @@ namespace app_console
         public virtual ICollection<Attendance> Attendance { get; set; }
         public virtual ICollection<Schedules> Schedules { get; set; }
 
-        public void Export() => Console.WriteLine($"ShiftId: {this.ShiftID} | ShiftName: {this.ShiftName} | StartTime: {this.StartTime} | EndTime: {this.EndTime}");
+        public void Export() => Console.WriteLine($"ShiftId: CL-{this.ShiftID} | ShiftName: {this.ShiftName} | StartTime: {this.StartTime} | EndTime: {this.EndTime}");
     }
 }

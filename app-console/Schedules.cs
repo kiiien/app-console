@@ -24,7 +24,7 @@ namespace app_console
 
         public void Export()
         {
-            Console.WriteLine($"ScheduleId: {this.ScheduleID} | ShiftID: {this.ShiftID} | WorkDate: {this.WorkDate.ToString("dd/MM/yyyy")} | ");
+            Console.WriteLine($"ScheduleId: CL-{this.ScheduleID} | ShiftID: {this.ShiftID} | WorkDate: {this.WorkDate.ToString("dd/MM/yyyy")} | ");
         }
     }
 }
